@@ -3,6 +3,7 @@ sys.path.insert(0,'/Users/neelguha/Dropbox/NeelResearch/fairness/code/tensorflow
 import tensorflow as tf
 import tensorflow_constrained_optimization as tfco
 
+
 def get_placeholder_name(attribute):
     str(hash(attribute))+ "_placeholder"
 
