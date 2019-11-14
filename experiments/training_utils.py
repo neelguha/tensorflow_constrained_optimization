@@ -20,7 +20,7 @@ def training_generator(model, train_df, test_df, minibatch_size, num_iterations_
     permutation = list(range(train_df.shape[0]))
     random.shuffle(permutation)
 
-    session = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+    session = tf.Session()
     session.run((tf.global_variables_initializer(),
                tf.local_variables_initializer()))
 
@@ -83,7 +83,10 @@ def _get_error_rate_and_constraints(df, tpr_max_diff, label_column, protected_co
     """Computes the error and fairness violations."""
     error_rate_local = error_rate(df[['predictions']], df[[label_column]])
     overall_tpr = tpr(df, label_column)
-    return error_rate_local, [(overall_tpr - tpr_max_diff) - tpr(df[df[protected_attribute] > 0.5], label_column) for protected_attribute in protected_columns]
+    diffs = []
+    for protected_attribute in protected_columns:
+        diffs.append((overall_tpr - tpr_max_diff) - tpr(df[df[protected_attribute] > 0.5], label_column))
+    return error_rate_local, diffs
 
 def _get_exp_error_rate_constraints(cand_dist, error_rates_vector, constraints_matrix):
     """Computes the expected error and fairness violations on a randomized solution."""
@@ -110,7 +113,6 @@ def training_helper(model,
 
         train_df['predictions'] = train
         test_df['predictions'] = test
-
         train_error_rate, train_constraints = _get_error_rate_and_constraints(
           train_df, model.tpr_max_diff, label_column, protected_columns)
         train_error_rate_vector.append(train_error_rate)
