@@ -6,6 +6,7 @@ import numpy as np
 from collections import defaultdict
 from tqdm import tqdm
 from collections import Counter
+from data_utils import *
 
 # parameters describing code book 
 HEADER_END = 9
@@ -209,7 +210,7 @@ def split(df):
     return train, test 
 
 def main():
-    data_dir = "../../../data/ipums/"
+    data_dir = os.path.join(DATA_DIR, "ipums")
     var_cols, var_descriptions, var_values = load_codebook(data_dir)
     raw_data = load_raw(data_dir)
     df = process_data(raw_data, var_cols, var_values)
