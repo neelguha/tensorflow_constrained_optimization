@@ -11,7 +11,7 @@ import tensorflow as tf
 import tensorflow_constrained_optimization as tfco
 import matplotlib.pyplot as plt
 import logging 
-
+import time
 
 def training_generator(model, train_df, test_df, minibatch_size, num_iterations_per_loop=1, num_loops=1):
     random.seed(31337)
@@ -27,6 +27,7 @@ def training_generator(model, train_df, test_df, minibatch_size, num_iterations_
     minibatch_start_index = 0
     for n in xrange(num_loops):
         for _ in xrange(num_iterations_per_loop):
+            start = time.time()
             minibatch_indices = []
             while len(minibatch_indices) < minibatch_size:
                 minibatch_end_index = (
@@ -55,8 +56,8 @@ def training_generator(model, train_df, test_df, minibatch_size, num_iterations_
         test_predictions = session.run(
             model.predictions_tensor,
             feed_dict=model.feed_dict_helper(test_df))
-
-        yield (train_predictions, test_predictions)
+        duration = time.time() - start 
+        yield (train_predictions, test_predictions, duration)
 
 def error_rate(predictions, labels):
     signed_labels = (
@@ -103,7 +104,7 @@ def training_helper(model,
     test_error_rate_vector = []
     test_constraints_matrix = []
     iteration = 1
-    for train, test in training_generator(
+    for train, test, duration in training_generator(
       model, train_df, test_df, minibatch_size, num_iterations_per_loop,
       num_loops):
 
@@ -120,8 +121,8 @@ def training_helper(model,
         test_error_rate_vector.append(test_error_rate)
         test_constraints_matrix.append(test_constraints)
         logging.info(
-            "Finished %d/%d. Train error = %f. Max train violation = %f. Test error = %f. Max test violation = %f" % 
-            (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints))
+            "Finished %d/%d. Train error = %f. Max train violation = %f. Test error = %f. Max test violation = %f. %f seconds" % 
+            (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints), duration)
         )
         iteration += 1
     return (train_error_rate_vector, train_constraints_matrix, test_error_rate_vector, test_constraints_matrix)
