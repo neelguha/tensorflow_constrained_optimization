@@ -67,7 +67,7 @@ def main():
     logging.info("%d training samples. %d test samples. %d features. %d protected attributes." %
                  (len(train_df), len(test_df), train_df.shape[1], len(protected_columns)))
 
-    epochs = 40
+    epochs = 100
     minibatch_size = 32
     num_iterations_per_loop = int(len(train_df) / minibatch_size)
     if args.baseline:
@@ -92,17 +92,24 @@ def main():
         }
     else:
         print("Running Model!")
-
+        constraints = [[p] for p in protected_columns]
         model = LinearModel(feature_names, protected_columns,
-                            label_column, protected_columns, tpr_max_diff=args.max_diff)
+                            label_column, constraints, tpr_max_diff=args.max_diff)
         model.build_train_op(0.01, unconstrained=False)
         print("Training!")
         # training_helper returns the list of errors and violations over each epoch.
         train_errors, train_violations, test_errors, test_violations = training_helper(
-            model, train_df, test_df, 100, label_column, protected_columns, num_iterations_per_loop=326, num_loops=40
+            model, train_df, test_df, 100, label_column, protected_columns, num_iterations_per_loop=num_iterations_per_loop, num_loops=epochs
         )
-        evaluate(args.dataset, train_errors, train_violations,
-                test_errors, test_violations, test_df, label_column)
+        train_out = create_result_to_save(train_df, protected_columns, label_column)
+        test_out = create_result_to_save(test_df, protected_columns, label_column)
+        parameters = {
+            'epochs': epochs, 
+            'minibatch_size': minibatch_size,
+            'model_selection': "last",
+            'type': 'tpr',
+            'tpr_diff': args.max_diff
+        }
 
 
     # save to output directory 

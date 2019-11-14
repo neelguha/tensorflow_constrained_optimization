@@ -52,11 +52,11 @@ class LinearModel(object):
         if not unconstrained:
 
             for constraint in self.constraints:
-
+                
+                print(constraint)
                 if len(constraint) == 1:
                     placeholder = self.protected_placeholders_dict[constraint[0]]
                     slice_tpr = tfco.positive_prediction_rate(ctx.subset((placeholder > 0) & (self.labels_placeholder > 0)))
-
                 elif len(constraint) == 2:
                     placeholder0 = self.protected_placeholders_dict[constraint[0]]
                     placeholder1 = self.protected_placeholders_dict[constraint[1]]
