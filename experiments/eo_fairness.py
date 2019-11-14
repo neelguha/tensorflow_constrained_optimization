@@ -92,18 +92,9 @@ def main():
         }
     else:
         print("Running Model!")
-        subsets = get_subsets(protected_columns)
-        constraints = []
-        for subset in subsets:
-            if args.super and len(subset) == 1:
-                constraints.append(subset)
-                print("Adding constraint: ", ' ∩ '.join(subset))
-            if args.sub and len(subset) > 1:
-                constraints.append(subset)
-                print("Adding constraint: ", ' ∩ '.join(subset))
 
         model = LinearModel(feature_names, protected_columns,
-                            label_column, constraints, tpr_max_diff=args.max_diff)
+                            label_column, protected_columns, tpr_max_diff=args.max_diff)
         model.build_train_op(0.01, unconstrained=False)
         print("Training!")
         # training_helper returns the list of errors and violations over each epoch.

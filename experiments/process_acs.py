@@ -85,8 +85,6 @@ def load_raw(data_dir):
     with open(os.path.join(data_dir, 'usa_00003.dat'), 'r') as in_file:
         for line in in_file:
             count += 1 
-            if count > 1000:
-                break
             txt = line.strip()
             data.append(txt)
     data = np.array(data)
@@ -205,13 +203,13 @@ def filter_features(df):
     
 
 def split(df):
-    shuffled = df.sample(frac = 1)
+    shuffled = df.sample(frac = 1, random_state=0)
     train = shuffled.head(int(len(df)*(90/100)))
     test = shuffled.tail(int(len(df)*(10/100)))
     return train, test 
 
 def main():
-    data_dir = "../../../data/ipums_small/"
+    data_dir = "../../../data/ipums/"
     var_cols, var_descriptions, var_values = load_codebook(data_dir)
     raw_data = load_raw(data_dir)
     df = process_data(raw_data, var_cols, var_values)
