@@ -67,7 +67,7 @@ def main():
     logging.info("%d training samples. %d test samples. %d features. %d protected attributes." %
                  (len(train_df), len(test_df), train_df.shape[1], len(protected_columns)))
 
-    epochs = 1
+    epochs = 40
     minibatch_size = 32
     num_iterations_per_loop = int(len(train_df) / minibatch_size)
     if args.baseline:

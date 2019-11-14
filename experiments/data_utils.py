@@ -136,7 +136,7 @@ def get_ipums_income(protected_selected, small = False):
 
     ''' 
     
-    data_dir = os.path.join(DATA_DIR, "ipums_small")
+    data_dir = os.path.join(DATA_DIR, "ipums")
     if small: 
         train = pd.read_pickle(os.path.join(data_dir, 'train_small'))
         test = pd.read_pickle(os.path.join(data_dir, 'test_small'))
