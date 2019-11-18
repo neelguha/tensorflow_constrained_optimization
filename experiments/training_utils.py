@@ -128,6 +128,11 @@ def training_helper(model,
                 "Finished %d/%d. Train error = %f. Max train violation = %f. Test error = %f. Max test violation = %f. %f seconds" % 
                 (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints), duration)
             )
+        else:
+            logging.info(
+                "Finished %d/%d.  %f seconds" % 
+                (iteration, num_loops, duration)
+            )
         iteration += 1
         start = time.time()
     return (train_error_rate_vector, train_constraints_matrix, test_error_rate_vector, test_constraints_matrix)
