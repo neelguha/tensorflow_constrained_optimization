@@ -32,7 +32,7 @@ def main():
             active_protected = np.random.choice(all_protected_columns, num_protected, replace = False)
             train_violation, test_violation, scores = run_eo_experiment( 
                 train_df, test_df, feature_names, label_column, 
-                active_protected, all_protected_columns, epochs=40, 
+                active_protected, all_protected_columns, epochs=20, 
                 minibatch_size=32,  max_diff=0.05, lr=0.005
             )
             trial_results[k] = {
