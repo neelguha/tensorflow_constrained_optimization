@@ -99,7 +99,8 @@ def training_helper(model,
                     label_column,
                     protected_columns,
                     num_iterations_per_loop=1,
-                    num_loops=1):
+                    num_loops=1 ,
+                    interval = 5):
     train_error_rate_vector = []
     train_constraints_matrix = []
     test_error_rate_vector = []
@@ -112,20 +113,21 @@ def training_helper(model,
 
         train_df['predictions'] = train
         test_df['predictions'] = test
-        train_error_rate, train_constraints = _get_error_rate_and_constraints(
-          train_df, model.tpr_max_diff, label_column, protected_columns)
-        train_error_rate_vector.append(train_error_rate)
-        train_constraints_matrix.append(train_constraints)
+        if iteration % interval == 0:
+            train_error_rate, train_constraints = _get_error_rate_and_constraints(
+            train_df, model.tpr_max_diff, label_column, protected_columns)
+            train_error_rate_vector.append(train_error_rate)
+            train_constraints_matrix.append(train_constraints)
 
-        test_error_rate, test_constraints = _get_error_rate_and_constraints(
-            test_df, model.tpr_max_diff, label_column, protected_columns)
-        test_error_rate_vector.append(test_error_rate)
-        test_constraints_matrix.append(test_constraints)
-        duration = time.time() - start
-        logging.info(
-            "Finished %d/%d. Train error = %f. Max train violation = %f. Test error = %f. Max test violation = %f. %f seconds" % 
-            (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints), duration)
-        )
+            test_error_rate, test_constraints = _get_error_rate_and_constraints(
+                test_df, model.tpr_max_diff, label_column, protected_columns)
+            test_error_rate_vector.append(test_error_rate)
+            test_constraints_matrix.append(test_constraints)
+            duration = time.time() - start
+            logging.info(
+                "Finished %d/%d. Train error = %f. Max train violation = %f. Test error = %f. Max test violation = %f. %f seconds" % 
+                (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints), duration)
+            )
         iteration += 1
         start = time.time()
     return (train_error_rate_vector, train_constraints_matrix, test_error_rate_vector, test_constraints_matrix)
