@@ -20,7 +20,7 @@ def training_generator(model, train_df, test_df, minibatch_size, num_iterations_
     permutation = list(range(train_df.shape[0]))
     random.shuffle(permutation)
 
-    session = tf.Session()
+    session = tf.Session(config=tf.ConfigProto(log_device_placement=True))
     session.run((tf.global_variables_initializer(),
                tf.local_variables_initializer()))
 

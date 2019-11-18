@@ -119,9 +119,9 @@ def load_adult_data(protected_selected):
 
 
     filtered_protected_columns = []
-    for col in PROTECTED_COLUMNS:
+    for col in feature_names:
         for prefix in protected_selected:
-            if prefix in col:
+            if prefix in col.split("_"):
                 filtered_protected_columns.append(col)
                 break 
     

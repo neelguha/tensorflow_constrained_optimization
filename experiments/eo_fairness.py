@@ -3,10 +3,10 @@
 from models import *
 from training_utils import *
 from data_utils import *
-import argparse
-import logging
+import argparse, logging, json
 from termcolor import colored
-import json
+import tensorflow as tf 
+
 
 format_out = colored('[%(asctime)s]', 'blue') + ' %(message)s'
 logging.basicConfig(format=format_out,
@@ -31,6 +31,7 @@ parser.add_argument('--age', action='store_true',
 parser.add_argument('--gender', action='store_true',
                     help="Whether to treat gender as a protected attribute")
 parser.add_argument('--exp_name', help = "Name of experiment - used for saving results.")
+parser.add_argument('--gpu', action = 'store_true', help = "Whether to use GPU")
 args = parser.parse_args()
 
 
@@ -66,8 +67,8 @@ def main():
     assert(len(protected_columns) > 0)
     logging.info("%d training samples. %d test samples. %d features. %d protected attributes." %
                  (len(train_df), len(test_df), train_df.shape[1], len(protected_columns)))
-
-    epochs = 100
+    logging.info(protected_columns)
+    epochs = 40
     minibatch_size = 32
     num_iterations_per_loop = int(len(train_df) / minibatch_size)
     if args.baseline:
@@ -125,4 +126,5 @@ def main():
         json.dump(parameters, out_file)
 
 if __name__ == "__main__":
+    print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
     main()

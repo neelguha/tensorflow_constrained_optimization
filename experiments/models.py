@@ -8,7 +8,7 @@ def get_placeholder_name(attribute):
     str(hash(attribute))+ "_placeholder"
 
 class LinearModel(object):
-    def __init__(self, feature_names, protected_features, label_column, constraints, tpr_max_diff=0, random_seed=123):
+    def __init__(self, feature_names, protected_features, label_column, constraints, tpr_max_diff=0, use_gpu = False, random_seed=123):
         """ Initializes linear model 
         
         Args:
