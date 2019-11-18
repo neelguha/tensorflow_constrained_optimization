@@ -6,6 +6,7 @@ from data_utils import *
 import argparse, logging, json
 from termcolor import colored
 import tensorflow as tf 
+import logging
 
 
 format_out = colored('[%(asctime)s]', 'blue') + ' %(message)s'

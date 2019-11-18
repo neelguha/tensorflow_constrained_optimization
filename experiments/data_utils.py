@@ -22,12 +22,8 @@ if 'results_dir' in os.environ:
 else:
     raise Exception("Please set environment variable: results_dir to point towards the results directory")
 
-def load_adult_data(protected_selected):
+def load_adult_data():
     ''' Loads adult dataset. 
-
-        Args:
-            protected_selected (list): list of attributes to consider as protected. 
-                OPTIONS: 'race', 'gender', 'age'
 
         Returns: 
             train_df: training dataframe
@@ -117,15 +113,7 @@ def load_adult_data(protected_selected):
     feature_names.remove(LABEL_COLUMN)
     num_features = len(feature_names)
 
-
-    filtered_protected_columns = []
-    for col in feature_names:
-        for prefix in protected_selected:
-            if prefix in col.split("_"):
-                filtered_protected_columns.append(col)
-                break 
-    
-    return train_df, test_df, feature_names, filtered_protected_columns, LABEL_COLUMN
+    return train_df, test_df, feature_names, LABEL_COLUMN
 
 
 def get_ipums_income(protected_selected, small = False):
@@ -183,7 +171,6 @@ def get_subsets(dataset):
     return subsets
 
 
-
 def create_result_to_save(df, protected_columns, label_column):
     ''' In order to make future analysis of results easy, we want to save all information from a model's performance. 
         The most concise representation of this consists of: 
@@ -218,3 +205,32 @@ def create_result_to_save(df, protected_columns, label_column):
 def make_dir(dirpath):
     if not os.path.exists(dirpath):
         os.makedirs(dirpath)
+
+
+def get_protected_attributes(dataset_name, attributes):
+    ''' Returns the list of protected attributes available for a dataset ''' 
+
+    if dataset_name == 'adult-income':
+        protected_attributes = []
+        for attribute_name in attributes:
+            
+            # Education number 
+            if 'education_num_' in attribute_name:
+                protected_attributes.append(attribute_name)
+
+            # Marital status 
+            if 'marital_status_' in attribute_name:
+                protected_attributes.append(attribute_name)
+
+            # Race
+            if 'race_' in attribute_name:
+                protected_attributes.append(attribute_name)
+
+            # Gender 
+            if 'gender_' in attribute_name:
+                protected_attributes.append(attribute_name)
+            
+            # Age 
+            if 'age_' in attribute_name:
+                protected_attributes.append(attribute_name)
+        return protected_attributes

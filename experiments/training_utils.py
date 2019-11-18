@@ -20,7 +20,7 @@ def training_generator(model, train_df, test_df, minibatch_size, num_iterations_
     permutation = list(range(train_df.shape[0]))
     random.shuffle(permutation)
 
-    session = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+    session = tf.Session()
     session.run((tf.global_variables_initializer(),
                tf.local_variables_initializer()))
 
@@ -110,10 +110,9 @@ def training_helper(model,
     for train, test  in training_generator(
       model, train_df, test_df, minibatch_size, num_iterations_per_loop,
       num_loops):
-
         train_df['predictions'] = train
         test_df['predictions'] = test
-        if iteration % interval == 0:
+        if (iteration - 1) % interval == 0:
             train_error_rate, train_constraints = _get_error_rate_and_constraints(
             train_df, model.tpr_max_diff, label_column, protected_columns)
             train_error_rate_vector.append(train_error_rate)
@@ -129,6 +128,7 @@ def training_helper(model,
                 (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints), duration)
             )
         else:
+            duration = time.time() - start
             logging.info(
                 "Finished %d/%d.  %f seconds" % 
                 (iteration, num_loops, duration)
