@@ -13,7 +13,7 @@ logging.basicConfig(format=format_out,
 
 K = 3
 
-NUM_PROTECTED = [3, 5, 10, 15, 22]
+NUM_PROTECTED = [0, 5, 10, 15, 22]
 
 DATASET = 'adult-income'
 
