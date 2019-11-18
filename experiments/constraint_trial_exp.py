@@ -40,6 +40,8 @@ def main():
                 'test_violation': test_violation,
                 'scores': scores,
             }
+            if num_protected in [0, 22]:
+                break
         all_results[num_protected] = trial_results
     
      # save to output directory 
