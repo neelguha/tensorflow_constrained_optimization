@@ -11,9 +11,9 @@ format_out = colored('[%(asctime)s]', 'blue') + ' %(message)s'
 logging.basicConfig(format=format_out,
                     datefmt='%m/%d/%Y %I:%M:%S%p', level=logging.INFO)
 
-K = 1 
+K = 3
 
-NUM_PROTECTED = [3] #, 5, 10, 15, 22]
+NUM_PROTECTED = [3, 5, 10, 15, 22]
 
 DATASET = 'adult-income'
 
