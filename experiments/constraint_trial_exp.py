@@ -13,7 +13,7 @@ logging.basicConfig(format=format_out,
 
 K = 3
 
-NUM_PROTECTED = [0, 5, 10, 15, 22]
+NUM_PROTECTED = [0, 5, 10, 15, 20, 25, 30, 37]
 
 DATASET = 'adult-income'
 
@@ -40,7 +40,7 @@ def main():
                 'test_violation': test_violation,
                 'scores': scores,
             }
-            if num_protected in [0, 22]:
+            if num_protected in [0, 37]:
                 break
         all_results[num_protected] = trial_results
     

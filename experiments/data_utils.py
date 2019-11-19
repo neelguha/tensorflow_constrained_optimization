@@ -233,4 +233,13 @@ def get_protected_attributes(dataset_name, attributes):
             # Age 
             if 'age_' in attribute_name:
                 protected_attributes.append(attribute_name)
+            
+            # Relationship 
+            if 'relationship_' in attribute_name:
+                protected_attributes.append(attribute_name)
+            
+            # Workclass 
+            if 'workclass_' in attribute_name:
+                protected_attributes.append(attribute_name)
+                
         return protected_attributes
