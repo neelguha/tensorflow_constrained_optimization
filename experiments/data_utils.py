@@ -235,11 +235,11 @@ def get_protected_attributes(dataset_name, attributes):
                 protected_attributes.append(attribute_name)
             
             # Relationship 
-            if 'relationship_' in attribute_name:
-                protected_attributes.append(attribute_name)
+            #if 'relationship_' in attribute_name:
+            #    protected_attributes.append(attribute_name)
             
             # Workclass 
-            if 'workclass_' in attribute_name:
-                protected_attributes.append(attribute_name)
+            #if 'workclass_' in attribute_name:
+            #    protected_attributes.append(attribute_name)
                 
         return protected_attributes
