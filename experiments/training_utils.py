@@ -112,7 +112,7 @@ def training_helper(model,
       num_loops):
         train_df['predictions'] = train
         test_df['predictions'] = test
-        if (iteration - 1) % interval == 0:
+        '''if (iteration - 1) % interval == 0:
             train_error_rate, train_constraints = _get_error_rate_and_constraints(
             train_df, model.tpr_max_diff, label_column, protected_columns)
             train_error_rate_vector.append(train_error_rate)
@@ -127,12 +127,12 @@ def training_helper(model,
                 "Finished %d/%d. Train error = %f. Max train violation = %f. Test error = %f. Max test violation = %f. %f seconds" % 
                 (iteration, num_loops, train_error_rate, max(train_constraints), test_error_rate, max(test_constraints), duration)
             )
-        else:
-            duration = time.time() - start
-            logging.info(
-                "Finished %d/%d.  %f seconds" % 
-                (iteration, num_loops, duration)
-            )
+        else:'''
+        duration = time.time() - start
+        logging.info(
+            "Finished %d/%d.  %f seconds" % 
+            (iteration, num_loops, duration)
+        )
         iteration += 1
         start = time.time()
     return (train_error_rate_vector, train_constraints_matrix, test_error_rate_vector, test_constraints_matrix)
