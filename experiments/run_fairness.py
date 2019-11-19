@@ -93,12 +93,12 @@ def score_violations_df(df, max_diff):
     group_rates = get_group_tpr_rates(df)
     violations = {}
     for key, val in group_rates.items():
-        violations[key] = max(abs(val - overall) - max_diff, 0)
+        violations[key] = max(max_diff - (overall - val), 0)
     return violations
 
 def score_results(df):
 
-    # get tpr rate 
+    # get tpr rate
     tpr_rate = tpr(df, 'label')
 
     # get accuracy 

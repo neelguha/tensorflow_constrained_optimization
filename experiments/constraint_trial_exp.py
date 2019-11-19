@@ -13,7 +13,7 @@ logging.basicConfig(format=format_out,
 
 K = 3
 
-NUM_PROTECTED = [30, 37]
+NUM_PROTECTED = [0, 5, 10, 15, 20, 25, 30, 37]
 
 DATASET = 'adult-income'
 
@@ -49,7 +49,7 @@ def main():
     logging.info("Saving all results to directory %s" % output_directory)
     make_dir(output_directory)
     logging.info("Saving experiment output...")
-    with open(os.path.join(output_directory, 'results2.json'), 'w') as out_file:
+    with open(os.path.join(output_directory, 'results.json'), 'w') as out_file:
         json.dump(all_results, out_file)
     
 
