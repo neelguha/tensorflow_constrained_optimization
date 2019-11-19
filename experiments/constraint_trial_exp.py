@@ -39,6 +39,7 @@ def main():
                 'train_violation': train_violation, 
                 'test_violation': test_violation,
                 'scores': scores,
+                'active_constraints': active_protected
             }
             if num_protected in [0, 37]:
                 break
