@@ -30,15 +30,17 @@ def main():
         for k in range(K):
             print("="*5, "Trial %d" % k, "="*5)
             active_protected = np.random.choice(all_protected_columns, num_protected, replace = False)
-            train_violation, test_violation, scores = run_eo_experiment( 
+            train_violation, train_rates, test_violation, test_rates, scores = run_eo_experiment( 
                 train_df, test_df, feature_names, label_column, 
                 active_protected, all_protected_columns, epochs=20, 
                 minibatch_size=32,  max_diff=0.05, lr=0.005
             )
             trial_results[k] = {
-                'train_violation': train_violation.tolist(), 
-                'test_violation': test_violation.tolist(),
-                'scores': scores.tolist(),
+                'train_violation': train_violation, 
+                'train_rates': train_rates,
+                'test_violation': test_violation,
+                'test_rates': test_rates,
+                'scores': scores,
                 'active_constraints': active_protected.tolist()
             }
         all_results[num_protected] = trial_results

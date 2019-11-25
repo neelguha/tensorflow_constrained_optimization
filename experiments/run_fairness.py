@@ -62,11 +62,11 @@ def run_eo_experiment(
     test_out = create_result_to_save(
         test_df, all_protected_columns, label_column)
 
-    train_violation = score_violations_df(train_out, max_diff)
-    test_violation = score_violations_df(test_out, max_diff)
+    train_violation, train_rates = score_violations_df(train_out, max_diff)
+    test_violation, test_rates = score_violations_df(test_out, max_diff)
     scores = score_results(test_out)
 
-    return train_violation, test_violation, scores
+    return train_violation, train_rates, test_violation, test_rates, scores
 
 
 
@@ -93,8 +93,8 @@ def score_violations_df(df, max_diff):
     group_rates = get_group_tpr_rates(df)
     violations = {}
     for key, val in group_rates.items():
-        violations[key] = max(max_diff - (overall - val), 0)
-    return violations
+        violations[key] = max(max_diff - abs(overall - val), 0)
+    return violations, group_rates
 
 def score_results(df):
 
