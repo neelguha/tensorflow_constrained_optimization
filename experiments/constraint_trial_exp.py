@@ -11,9 +11,9 @@ format_out = colored('[%(asctime)s]', 'blue') + ' %(message)s'
 logging.basicConfig(format=format_out,
                     datefmt='%m/%d/%Y %I:%M:%S%p', level=logging.INFO)
 
-K = 3
+K = 1
 
-NUM_PROTECTED = [0, 5, 10, 15, 20, 25, 30, 37]
+NUM_PROTECTED = [0, 5, 10, 15, 22]
 
 DATASET = 'adult-income'
 
@@ -41,8 +41,6 @@ def main():
                 'scores': scores,
                 'active_constraints': active_protected
             }
-            if num_protected in [0, 37]:
-                break
         all_results[num_protected] = trial_results
     
      # save to output directory 

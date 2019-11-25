@@ -225,12 +225,16 @@ def main():
     # filter features 
     df = filter_features(df)
 
-    # split into train/test 
+    # Create large dataset 
     train, test = split(df)
-
-    # save to file 
     train.to_pickle(os.path.join(data_dir, "train"))
     test.to_pickle(os.path.join(data_dir, "test"))
+
+    # create small dataset 
+    small_df = df.sample(200000, replace = False)
+    small_train, small_test = split(small_df)
+    small_train.to_pickle(os.path.join(data_dir, "small_train"))
+    small_test.to_pickle(os.path.join(data_dir, "small_test"))
 
 
 
