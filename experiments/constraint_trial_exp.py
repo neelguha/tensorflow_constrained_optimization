@@ -36,10 +36,10 @@ def main():
                 minibatch_size=32,  max_diff=0.05, lr=0.005
             )
             trial_results[k] = {
-                'train_violation': train_violation, 
-                'test_violation': test_violation,
-                'scores': scores,
-                'active_constraints': active_protected
+                'train_violation': train_violation.tolist(), 
+                'test_violation': test_violation.tolist(),
+                'scores': scores.tolist(),
+                'active_constraints': active_protected.tolist()
             }
         all_results[num_protected] = trial_results
     
