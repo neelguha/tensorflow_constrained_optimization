@@ -104,8 +104,8 @@ def score_results(df):
     # get accuracy 
     accuracy = get_accuracy(df)
     return {
-        'tpr': tpr_rate.tolist(),
-        'accuracy': accuracy.tolist()
+        'tpr': tpr_rate,
+        'accuracy': accuracy
     }
 
 def get_accuracy(df):
