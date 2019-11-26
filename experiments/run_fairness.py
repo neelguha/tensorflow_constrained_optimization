@@ -70,14 +70,14 @@ def run_eo_experiment(
 
 
 
-def get_group_tpr_rates(df):
-    overall_tpr_rate = tpr(df, "label")
+def get_group_tpr_rates(df, label_column):
+    overall_tpr_rate = tpr(df, label_column)
     columns = list(df.keys())
     col_rates = {}
     for col in columns: 
         if col in ['label', 'predictions', 'predicted_class']:
             continue 
-        col_rates[col] = tpr(df[df[col] == 1], "label")
+        col_rates[col] = tpr(df[df[col] == 1], label_column)
     return col_rates
 
 
@@ -90,7 +90,7 @@ def score_violations_df(df, max_diff, label_column):
     '''
 
     overall = tpr(df, label_column)
-    group_rates = get_group_tpr_rates(df)
+    group_rates = get_group_tpr_rates(df, label_column)
     violations = {}
     for key, val in group_rates.items():
         violations[key] = max(max_diff - abs(overall - val), 0)
