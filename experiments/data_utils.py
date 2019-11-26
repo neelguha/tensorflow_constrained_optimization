@@ -236,7 +236,7 @@ def get_protected_attributes(dataset_name, attributes, label = None, train = Non
 
             # check that attribute has positive samples in train and test 
             num_pos_train = sum(train[train[attribute_name] == 1][label].values)
-            num_pos_test = sum(train[train[attribute_name] == 1][label].values)
+            num_pos_test = sum(test[train[attribute_name] == 1][label].values)
             
             if num_pos_test > 10 and num_pos_train > 10:
                 print("{}: {} Pos. (Train) {} Pos (Test)".format(attribute_name, num_pos_train, num_pos_test))
