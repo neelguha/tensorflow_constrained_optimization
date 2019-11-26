@@ -23,11 +23,11 @@ def main():
 
     if args.dataset == 'adult':
         train_df, test_df, feature_names, label_column = load_adult_data()
-        all_protected_columns = get_protected_attributes(DATASET, feature_names)
+        all_protected_columns = get_protected_attributes(args.dataset, feature_names)
         NUM_PROTECTED = [0, 5, 10, 15, 22]
     elif args.dataset == 'ipums-small':
         train_df, test_df, feature_names, label_column = load_adult_data()
-        all_protected_columns = get_protected_attributes(DATASET, feature_names, label_column, train_df, test_df)
+        all_protected_columns = get_protected_attributes(args.dataset, feature_names, label_column, train_df, test_df)
         NUM_PROTECTED = []
         intervals = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
         for ratio in intervals:
