@@ -71,12 +71,12 @@ def run_eo_experiment(
 
 
 def get_group_tpr_rates(df, label_column):
-    overall_tpr_rate = tpr(df, label_column)
     columns = list(df.keys())
     col_rates = {}
     for col in columns: 
         if col in ['label', 'predictions', 'predicted_class']:
-            continue 
+            continue
+        print(col, df[df[col] == 1].shape)
         col_rates[col] = tpr(df[df[col] == 1], label_column)
     return col_rates
 
