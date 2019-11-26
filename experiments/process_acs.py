@@ -231,7 +231,7 @@ def main():
     test.to_pickle(os.path.join(data_dir, "test"))
 
     # create small dataset 
-    small_df = df.sample(200000, replace = False)
+    small_df = df.sample(200000, replace = False, random_state = 0)
     small_train, small_test = split(small_df)
     small_train.to_pickle(os.path.join(data_dir, "small_train"))
     small_test.to_pickle(os.path.join(data_dir, "small_test"))

@@ -6,20 +6,34 @@ from training_utils import *
 from data_utils import *
 from run_fairness import *
 from termcolor import colored
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dataset', default="adult-income",
+                    help='name of dataset')
+args = parser.parse_args()
 
 format_out = colored('[%(asctime)s]', 'blue') + ' %(message)s'
 logging.basicConfig(format=format_out,
                     datefmt='%m/%d/%Y %I:%M:%S%p', level=logging.INFO)
 
 K = 1
-
-NUM_PROTECTED = [0, 5, 10, 15, 22]
-
-DATASET = 'adult-income'
-
 def main():
-    train_df, test_df, feature_names, label_column = load_adult_data()
-    all_protected_columns = get_protected_attributes(DATASET, feature_names)
+    logging.info("Dataset: {}".format(args.dataset))
+
+    if args.dataset == 'adult':
+        train_df, test_df, feature_names, label_column = load_adult_data()
+        all_protected_columns = get_protected_attributes(DATASET, feature_names)
+        NUM_PROTECTED = [0, 5, 10, 15, 22]
+    elif args.dataset == 'ipums-small':
+        train_df, test_df, feature_names, label_column = load_adult_data()
+        all_protected_columns = get_protected_attributes(DATASET, feature_names, label_column, train_df, test_df)
+        NUM_PROTECTED = []
+        intervals = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+        for ratio in intervals:
+            NUM_PROTECTED.append(int(ratio*len(all_protected_columns)))
+        
+
     
     logging.info("%d protected attributes" % len(all_protected_columns))
     all_results = {}
@@ -46,7 +60,7 @@ def main():
         all_results[num_protected] = trial_results
     
      # save to output directory 
-    output_directory = os.path.join(RESULTS_DIR, 'rate_constraints', DATASET, "trials")
+    output_directory = os.path.join(RESULTS_DIR, 'rate_constraints', args.dataset, "trials")
     logging.info("Saving all results to directory %s" % output_directory)
     make_dir(output_directory)
     logging.info("Saving experiment output...")

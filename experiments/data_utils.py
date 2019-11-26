@@ -11,6 +11,7 @@ import tensorflow as tf
 import tensorflow_constrained_optimization as tfco
 import matplotlib.pyplot as plt
 import os 
+from tqdm import tqdm
 
 if 'fairness_data' in os.environ:
     DATA_DIR = os.environ['fairness_data']
@@ -207,7 +208,7 @@ def make_dir(dirpath):
         os.makedirs(dirpath)
 
 
-def get_protected_attributes(dataset_name, attributes):
+def get_protected_attributes(dataset_name, attributes, label = None, train = None, test = None):
     ''' Returns the list of protected attributes available for a dataset ''' 
 
     if dataset_name == 'adult-income':
@@ -233,13 +234,22 @@ def get_protected_attributes(dataset_name, attributes):
             # Age 
             if 'age_' in attribute_name:
                 protected_attributes.append(attribute_name)
-            
-            # Relationship 
-            #if 'relationship_' in attribute_name:
-            #    protected_attributes.append(attribute_name)
-            
-            # Workclass 
-            #if 'workclass_' in attribute_name:
-            #    protected_attributes.append(attribute_name)
                 
+        return protected_attributes
+    elif dataset_name == 'ipums-small':
+        protected_attributes = []
+        for attribute_name in tqdm(attributes):
+            
+            is_age =  'age_' in attribute_name
+            is_race = 'race_' in attribute_name
+            is_gender = 'gender_' in attribute_name
+            if not is_age and not is_race and not is_gender:
+                continue 
+
+            # check that attribute has positive samples in train and test 
+            num_pos_train = sum(train[train[attribute_name] == 1][label].values)
+            num_pos_test = sum(train[train[attribute_name] == 1][label].values)
+            
+            if num_pos_test > 10 and num_pos_train > 10:
+                protected_attributes.append(attribute_name)
         return protected_attributes
