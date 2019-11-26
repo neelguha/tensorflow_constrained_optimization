@@ -76,7 +76,7 @@ def get_group_tpr_rates(df, label_column):
     for col in columns: 
         if col in ['label', 'predictions', 'predicted_class']:
             continue
-        print(col, df[df[col] == 1].shape)
+        #print(col, df[df[col] == 1].shape)
         col_rates[col] = tpr(df[df[col] == 1], label_column)
     return col_rates
 
