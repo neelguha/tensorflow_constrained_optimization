@@ -32,10 +32,10 @@ def main():
         intervals = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
         for ratio in intervals:
             NUM_PROTECTED.append(int(ratio*len(all_protected_columns)))
-        
-
-    
+    print("Training shape:", train_df.shape)    
+    print("Test shape:", test_df.shape)
     logging.info("%d protected attributes" % len(all_protected_columns))
+    return
     all_results = {}
 
     for num_protected in NUM_PROTECTED:
