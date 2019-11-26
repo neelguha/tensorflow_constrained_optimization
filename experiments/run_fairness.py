@@ -64,7 +64,7 @@ def run_eo_experiment(
 
     train_violation, train_rates = score_violations_df(train_out, max_diff, label_column)
     test_violation, test_rates = score_violations_df(test_out, max_diff, label_column)
-    scores = score_results(test_out)
+    scores = score_results(test_out, label_column)
 
     return train_violation, train_rates, test_violation, test_rates, scores
 
@@ -96,17 +96,17 @@ def score_violations_df(df, max_diff, label_column):
         violations[key] = max(max_diff - abs(overall - val), 0)
     return violations, group_rates
 
-def score_results(df):
+def score_results(df, label_column):
 
     # get tpr rate
-    tpr_rate = tpr(df, 'label')
+    tpr_rate = tpr(df, label_column)
 
     # get accuracy 
-    accuracy = get_accuracy(df)
+    accuracy = get_accuracy(df, label_column)
     return {
         'tpr': tpr_rate,
         'accuracy': accuracy
     }
 
-def get_accuracy(df):
-    return np.mean(df['predicted_class'] == df['label'])
+def get_accuracy(df, label_column):
+    return np.mean(df['predicted_class'] == df[label_column])
