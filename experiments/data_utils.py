@@ -117,11 +117,8 @@ def load_adult_data():
     return train_df, test_df, feature_names, LABEL_COLUMN
 
 
-def get_ipums_income(protected_selected, small = False):
+def get_ipums_income(small = False):
     ''' Returns ipums data. 
-
-        Args:
-            protected_selected (list): list of attributes to consider as protected 
 
     ''' 
     
@@ -143,18 +140,9 @@ def get_ipums_income(protected_selected, small = False):
     all_protected_prefixes = ['age', 'gender', 'race']
     protected_columns = []
     columns_to_keep = [label_column]
-    for col in list(train.keys()):
-        for prefix in protected_selected:
-            if prefix in col:
-                train_labels = train[train[col] > 0][label_column].values
-                test_labels = test[test[col] > 0][label_column].values
-                if np.sum(train_labels) > 0 and np.sum(test_labels) > 0:
-                    protected_columns.append(col)
-                break
-    print(protected_columns)
     feature_names = list(train.keys())
     feature_names.remove(label_column)
-    return train, test, feature_names, protected_columns, label_column
+    return train, test, feature_names, label_column
 
 def get_subsets(dataset):
 
