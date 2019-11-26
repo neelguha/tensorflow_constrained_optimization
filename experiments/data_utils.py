@@ -124,8 +124,8 @@ def get_ipums_income(small = False):
     
     data_dir = os.path.join(DATA_DIR, "ipums")
     if small: 
-        train = pd.read_pickle(os.path.join(data_dir, 'train_small'))
-        test = pd.read_pickle(os.path.join(data_dir, 'test_small'))
+        train = pd.read_pickle(os.path.join(data_dir, 'small_train'))
+        test = pd.read_pickle(os.path.join(data_dir, 'small_test'))
     else:
         train = pd.read_pickle(os.path.join(data_dir, 'train'))
         test = pd.read_pickle(os.path.join(data_dir, 'test'))
