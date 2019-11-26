@@ -181,11 +181,8 @@ def create_result_to_save(df, protected_columns, label_column):
             cols_to_keep.append(col)
         elif col == 'predictions':
             cols_to_keep.append(col)
-        else:
-            for prefix in protected_columns:
-                if prefix in col:
-                    cols_to_keep.append(col)
-                    break 
+        elif col in protected_columns:
+            cols_to_keep.append(col)
     df_filtered = df[cols_to_keep]
     df_filtered['predicted_class'] = df_filtered['predictions'] > 0.0
     return df_filtered
@@ -226,7 +223,7 @@ def get_protected_attributes(dataset_name, attributes, label = None, train = Non
         return protected_attributes
     elif dataset_name == 'ipums-small':
         protected_attributes = []
-        for attribute_name in tqdm(attributes):
+        for attribute_name in attributes:
             
             is_age =  'age_' in attribute_name
             is_race = 'race_' in attribute_name
@@ -239,6 +236,6 @@ def get_protected_attributes(dataset_name, attributes, label = None, train = Non
             num_pos_test = sum(test[test[attribute_name] == 1][label].values)
             
             if num_pos_test > 10 and num_pos_train > 10:
-                #print("{}: {} Pos. (Train) {} Pos (Test)".format(attribute_name, num_pos_train, num_pos_test))
+                print("{}: {} Pos. (Train) {} Pos (Test)".format(attribute_name, num_pos_train, num_pos_test))
                 protected_attributes.append(attribute_name)
         return protected_attributes

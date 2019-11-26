@@ -35,7 +35,7 @@ def main():
     print("Training shape:", train_df.shape)    
     print("Test shape:", test_df.shape)
     logging.info("%d protected attributes" % len(all_protected_columns))
-    
+    return
     all_results = {}
 
     for num_protected in NUM_PROTECTED:
