@@ -226,7 +226,7 @@ def get_protected_attributes(dataset_name, attributes, label = None, train = Non
         return protected_attributes
     elif dataset_name == 'ipums-small':
         protected_attributes = []
-        for attribute_name in attributes:
+        for attribute_name in tqdm(attributes):
             
             is_age =  'age_' in attribute_name
             is_race = 'race_' in attribute_name
@@ -239,6 +239,6 @@ def get_protected_attributes(dataset_name, attributes, label = None, train = Non
             num_pos_test = sum(test[train[attribute_name] == 1][label].values)
             
             if num_pos_test > 10 and num_pos_train > 10:
-                print("{}: {} Pos. (Train) {} Pos (Test)".format(attribute_name, num_pos_train, num_pos_test))
+                #print("{}: {} Pos. (Train) {} Pos (Test)".format(attribute_name, num_pos_train, num_pos_test))
                 protected_attributes.append(attribute_name)
         return protected_attributes
