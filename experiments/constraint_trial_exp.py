@@ -59,13 +59,13 @@ def main():
             }
         all_results[num_protected] = trial_results
     
-     # save to output directory 
-    output_directory = os.path.join(RESULTS_DIR, 'rate_constraints', args.dataset, "trials")
-    logging.info("Saving all results to directory %s" % output_directory)
-    make_dir(output_directory)
-    logging.info("Saving experiment output...")
-    with open(os.path.join(output_directory, 'results.json'), 'w') as out_file:
-        json.dump(all_results, out_file)
+        # save to output directory 
+        output_directory = os.path.join(RESULTS_DIR, 'rate_constraints', args.dataset, "trials")
+        logging.info("Saving current results to directory %s" % output_directory)
+        make_dir(output_directory)
+        logging.info("Saving experiment output...")
+        with open(os.path.join(output_directory, 'results.json'), 'w') as out_file:
+            json.dump(all_results, out_file)
     
 
 

@@ -62,8 +62,8 @@ def run_eo_experiment(
     test_out = create_result_to_save(
         test_df, all_protected_columns, label_column)
 
-    train_violation, train_rates = score_violations_df(train_out, max_diff)
-    test_violation, test_rates = score_violations_df(test_out, max_diff)
+    train_violation, train_rates = score_violations_df(train_out, max_diff, label_column)
+    test_violation, test_rates = score_violations_df(test_out, max_diff, label_column)
     scores = score_results(test_out)
 
     return train_violation, train_rates, test_violation, test_rates, scores
@@ -81,7 +81,7 @@ def get_group_tpr_rates(df):
     return col_rates
 
 
-def score_violations_df(df, max_diff):
+def score_violations_df(df, max_diff, label_column):
     ''' Generate constraint violation scores. 
 
     Args:
@@ -89,7 +89,7 @@ def score_violations_df(df, max_diff):
         max_diff
     '''
 
-    overall = tpr(df, "label")
+    overall = tpr(df, label_column)
     group_rates = get_group_tpr_rates(df)
     violations = {}
     for key, val in group_rates.items():
