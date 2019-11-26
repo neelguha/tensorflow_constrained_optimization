@@ -47,7 +47,7 @@ def main():
             train_violation, train_rates, test_violation, test_rates, scores = run_eo_experiment( 
                 train_df, test_df, feature_names, label_column, 
                 active_protected, all_protected_columns, epochs=10, 
-                minibatch_size=32,  max_diff=0.05, lr=0.005
+                minibatch_size=128,  max_diff=0.05, lr=0.005
             )
             trial_results[k] = {
                 'train_violation': train_violation, 
