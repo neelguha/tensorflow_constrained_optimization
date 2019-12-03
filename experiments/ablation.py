@@ -19,7 +19,7 @@ logging.basicConfig(format=format_out,
 def main():
     logging.info("Dataset: {}".format(args.dataset))
 
-    if args.dataset == 'adult':
+    if args.dataset == 'adult-income':
         train_df, test_df, feature_names, label_column = load_adult_data()
         all_protected_columns = get_protected_attributes(args.dataset, feature_names)
     elif args.dataset == 'ipums-small':
